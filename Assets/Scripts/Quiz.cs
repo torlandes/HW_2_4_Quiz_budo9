@@ -49,7 +49,7 @@ public class Quiz : MonoBehaviour
     {
         int incorrectAnswers = _currentQuestion - _score;
         Statistics.CorrectAnswers = _score;
-        Statistics.CorrectAnswers = incorrectAnswers;
+        Statistics.IncorrectAnswers = incorrectAnswers;
         SceneManager.LoadScene("GameOverScene");
     }
 
