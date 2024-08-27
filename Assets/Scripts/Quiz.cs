@@ -34,8 +34,8 @@ public class Quiz : MonoBehaviour
     {
         for (int i = 0; i < _answerButtons.Length; i++)
         {
-            int index = i;
-            _answerButtons[i].onClick.AddListener(() => SelectAnswerClickedCallback(index));
+            int i1 = i;
+            _answerButtons[i].onClick.AddListener(() => SelectAnswerClickedCallback(i1));
         }
 
         LoadQuestion();
