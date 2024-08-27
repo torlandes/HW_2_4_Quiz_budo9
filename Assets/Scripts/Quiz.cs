@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Quiz : MonoBehaviour
 {
     #region Variables
-    
+
     [Header("Quiz UI")]
     [SerializeField] private QuestionsConfig[] _questions;
     [SerializeField] private TMP_Text _questionLabel;
@@ -110,5 +110,4 @@ public class Quiz : MonoBehaviour
     }
 
     #endregion
-    
 }

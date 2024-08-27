@@ -15,7 +15,7 @@ public class QuestionsConfig : ScriptableObject
     [TextArea(3, 10)]
     [SerializeField] private string _answer4;
     [TextArea(5, 10)]
-    [SerializeField] private string _question;
+    [SerializeField] private string _questions;
     [SerializeField] private int _correctAnswer;
     [SerializeField] private Sprite _questionSprite;
 
@@ -27,7 +27,7 @@ public class QuestionsConfig : ScriptableObject
     public string Answer2 => _answer2;
     public string Answer3 => _answer3;
     public string Answer4 => _answer4;
-    public string Question => _question;
+    public string Question => _questions;
     public Sprite QuestionSprite => _questionSprite;
     public int CorrectAnswer => _correctAnswer;
 
