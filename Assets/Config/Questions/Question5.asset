@@ -19,5 +19,5 @@ MonoBehaviour:
   _questions: "\u041A\u0430\u043A\u043E\u0439 \u0433\u0440\u0443\u0437 \u0432 \u0447\u0435\u0442\u0432\u0451\u0440\u0442\u043E\u043C
     \u0444\u0438\u043B\u044C\u043C\u0435 \u043F\u0440\u0438\u0432\u0435\u0437\u043B\u0438
     \u043A\u043E\u043D\u0442\u0440\u0430\u0431\u0430\u043D\u0434\u0438\u0441\u0442\u044B?"
-  _correctAnswer: 1
+  _correctAnswer: 0
   _questionSprite: {fileID: 21300000, guid: abc1148ef396cd149bd1cc595c6fd9bc, type: 3}

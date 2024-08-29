@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -68,28 +69,17 @@ public class Quiz : MonoBehaviour
     private void HelpButtonClickedCallBack()
     {
         int correctIndex = _questions[_currentQuestion].CorrectAnswer;
+        
+        List<Button> incorrectButtons = new(_answerButtons);
+        incorrectButtons.RemoveAt(correctIndex);
 
-        List<int> incorrectIndexes = new();
-
-        while (incorrectIndexes.Count < 2)
+        for (int i = 0; i < 2; i++)
         {
-            int randomIncorrect = Random.Range(0, 4);
-            
-            if (randomIncorrect == correctIndex || incorrectIndexes.Contains(randomIncorrect)) 
-            {
-                continue;
-            }
-            
-            incorrectIndexes.Add(randomIncorrect);
+            Button button = incorrectButtons[Random.Range(0, incorrectButtons.Count - 1)];
+            button.gameObject.SetActive(false);
+            incorrectButtons.Remove(button);
         }
-
-        foreach (int incorrectIndex in incorrectIndexes)
-        {
-            _answerButtons[incorrectIndex].gameObject.SetActive(false);
-            Debug.Log($"incorrectIndex {incorrectIndex}");
-            Debug.Log($"correctIndex {correctIndex}");
-        }
-
+  
         _help.gameObject.SetActive(false);
         
     }
@@ -144,7 +134,7 @@ public class Quiz : MonoBehaviour
 
     private void SelectAnswerClickedCallback(int answerIndex)
     {
-        bool isCorrect = answerIndex + 1 == _questions[_currentQuestion].CorrectAnswer;
+        bool isCorrect = answerIndex == _questions[_currentQuestion].CorrectAnswer;
 
         if (isCorrect)
         {
@@ -171,7 +161,7 @@ public class Quiz : MonoBehaviour
     
     private void ShowCorrectAnswer()
     {
-        int correctAnswerIndex = _questions[_currentQuestion].CorrectAnswer - 1;
+        int correctAnswerIndex = _questions[_currentQuestion].CorrectAnswer;
         _answerButtons[correctAnswerIndex].image.sprite = _correctSprite;
     }
 
