@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SpawnManagerScriptableObject")]
 [CreateAssetMenu(fileName = nameof(QuestionsConfig), menuName = "Config/Questions/QuestionsConfig")]
 public class QuestionsConfig : ScriptableObject
 {

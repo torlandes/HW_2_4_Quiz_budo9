@@ -19,7 +19,7 @@ public class GameOver : MonoBehaviour
     {
         int correctAnswers = Statistics.CorrectAnswers;
         int incorrectAnswers = Statistics.IncorrectAnswers;
-        _resultLabel.text =  $"Верные ответы: {correctAnswers} \nНеверные ответы: {incorrectAnswers}";
+        _resultLabel.text =  $"Total correct answers: {correctAnswers} \nTotal mistakes: {incorrectAnswers}";
         _restartGame.onClick.AddListener(RestartGame);
         _exitGame.onClick.AddListener(ExitGame);
     }

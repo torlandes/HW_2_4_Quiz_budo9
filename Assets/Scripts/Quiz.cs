@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,8 +16,11 @@ public class Quiz : MonoBehaviour
     [SerializeField] private TMP_Text[] _answersLabel;
     [SerializeField] private Image _questionImage;
     [SerializeField] private Button[] _answerButtons;
+    [SerializeField] private Button _helpButton;
 
     [Header("Settings")]
+    [SerializeField] private GameObject[] _healthBar;
+    [SerializeField] private GameObject _help;
     [SerializeField] private int _delay = 1;
 
     [Header("Button Sprites")]
@@ -24,6 +29,7 @@ public class Quiz : MonoBehaviour
     [SerializeField] private Sprite _defaultSprite;
 
     private int _currentQuestion;
+    private int _lives;
     private int _score;
 
     #endregion
@@ -32,6 +38,12 @@ public class Quiz : MonoBehaviour
 
     private void Start()
     {
+        _lives = _healthBar.Length;
+
+        _helpButton.onClick.AddListener(HelpButtonClickedCallBack);
+
+        ShuffleQuestions();
+
         for (int i = 0; i < _answerButtons.Length; i++)
         {
             int i1 = i;
@@ -53,6 +65,35 @@ public class Quiz : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
+    private void HelpButtonClickedCallBack()
+    {
+        int correctIndex = _questions[_currentQuestion].CorrectAnswer;
+
+        List<int> incorrectIndexes = new();
+
+        while (incorrectIndexes.Count < 2)
+        {
+            int randomIncorrect = Random.Range(0, 4);
+            
+            if (randomIncorrect == correctIndex || incorrectIndexes.Contains(randomIncorrect)) 
+            {
+                continue;
+            }
+            
+            incorrectIndexes.Add(randomIncorrect);
+        }
+
+        foreach (int incorrectIndex in incorrectIndexes)
+        {
+            _answerButtons[incorrectIndex].gameObject.SetActive(false);
+            Debug.Log($"incorrectIndex {incorrectIndex}");
+            Debug.Log($"correctIndex {correctIndex}");
+        }
+
+        _help.gameObject.SetActive(false);
+        
+    }
+
     private void LoadQuestion()
     {
         if (_currentQuestion < _questions.Length)
@@ -67,15 +108,29 @@ public class Quiz : MonoBehaviour
             foreach (Button button in _answerButtons)
             {
                 button.image.sprite = _defaultSprite;
+                button.gameObject.SetActive(true);
+                _help.gameObject.SetActive(true);
             }
+        }
+    }
+
+    private void LoseLife()
+    {
+        if (_lives > 0)
+        {
+            _lives--;
+            _healthBar[_lives].SetActive(false);
         }
     }
 
     private IEnumerator ProceedToNextQuestionWithDelay()
     {
+        SetAnswerButtonInteractable(false);
+
         yield return new WaitForSeconds(_delay);
+
         _currentQuestion++;
-        if (_currentQuestion < _questions.Length)
+        if (_lives > 0 && _currentQuestion < _questions.Length)
         {
             LoadQuestion();
         }
@@ -83,6 +138,8 @@ public class Quiz : MonoBehaviour
         {
             EndQuiz();
         }
+
+        SetAnswerButtonInteractable(true);
     }
 
     private void SelectAnswerClickedCallback(int answerIndex)
@@ -95,6 +152,7 @@ public class Quiz : MonoBehaviour
         }
         else
         {
+            LoseLife();
             ShowCorrectAnswer();
         }
 
@@ -103,10 +161,29 @@ public class Quiz : MonoBehaviour
         StartCoroutine(ProceedToNextQuestionWithDelay());
     }
 
+    private void SetAnswerButtonInteractable(bool value)
+    {
+        foreach (Button button in _answerButtons)
+        {
+            button.enabled = value;
+        }
+    }
+    
     private void ShowCorrectAnswer()
     {
         int correctAnswerIndex = _questions[_currentQuestion].CorrectAnswer - 1;
         _answerButtons[correctAnswerIndex].image.sprite = _correctSprite;
+    }
+
+    private void ShuffleQuestions()
+    {
+        for (int i = 0; i < _questions.Length; i++)
+        {
+            QuestionsConfig temp = _questions[i];
+            int randomIndex = Random.Range(i, _questions.Length);
+            _questions[i] = _questions[randomIndex];
+            _questions[randomIndex] = temp;
+        }
     }
 
     #endregion
