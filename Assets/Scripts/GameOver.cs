@@ -19,7 +19,8 @@ public class GameOver : MonoBehaviour
     {
         int correctAnswers = Statistics.CorrectAnswers;
         int incorrectAnswers = Statistics.IncorrectAnswers;
-        _resultLabel.text =  $"Total correct answers: {correctAnswers} \nTotal mistakes: {incorrectAnswers}";
+        _resultLabel.text =  $"YOU ARE AWESOME!!! THANKS FOR YOUR ATTENTION! \n _________" +
+                             $" \n Total answers: {correctAnswers} \nTotal mistakes: {incorrectAnswers}";
         _restartGame.onClick.AddListener(RestartGame);
         _exitGame.onClick.AddListener(ExitGame);
     }
